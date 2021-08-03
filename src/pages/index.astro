@@ -33,7 +33,7 @@ let firstPage = allPosts.slice(0, 2);
   </head>
 
   <body>
-    <Nav />
+    <Nav title={title}/>
 
     <main class="wrapper">
       {allPosts.map((post) => <PostPreview post={post} author={authorData[post.author]} />)}
