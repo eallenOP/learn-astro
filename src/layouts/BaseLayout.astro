@@ -1,0 +1,49 @@
+---
+// Component Imports
+import MainHead from '../components/MainHead.astro';
+import Nav from '../components/Nav.astro';
+import PostPreview from '../components/PostPreview.astro';
+import Pagination from '../components/Pagination.astro';
+import authorData from '../data/authors.json';
+
+// Component Script:
+// You can write any JavaScript/TypeScript that you'd like here.
+// It will run during the build, but never in the browser.
+// All variables are available to use in the HTML template below.
+let title = 'Elise’s Blog';
+let description = 'A way to learn Astro';
+let canonicalURL = Astro.request.canonicalURL;
+
+// Data Fetching: List all Markdown posts in the repo.
+let allPosts = Astro.fetchContent('../pages/post/*.md');
+allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+let firstPage = allPosts.slice(0, 2);
+
+// Full Astro Component Syntax:
+// https://docs.astro.build/core-concepts/astro-components/
+---
+<html lang="en">
+  <head>
+    <title>{title}</title>
+    <MainHead
+      title={title}
+      description={description}
+      image={allPosts[0].image}
+      canonicalURL={Astro.request.canonicalURL.href}
+      prev={posts.url.prev}
+      next={posts.url.next}
+    />
+  </head>
+
+  <body>
+    <Nav title={title}/>
+
+    <main class="wrapper">
+        <slot />  
+    </main>
+
+    <footer>
+        <slot name="footer" />
+    </footer>
+  </body>
+</html>

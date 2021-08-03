@@ -1,4 +1,5 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 import MainHead from '../components/MainHead.astro';
 import Nav from '../components/Nav.astro';
 import PostPreview from '../components/PostPreview.astro';
@@ -29,18 +30,6 @@ export function createCollection() {
 const { posts } = Astro.props;
 ---
 
-<html lang="en">
-  <head>
-    <title>{title}</title>
-    <MainHead
-      title={title}
-      description={description}
-      image={posts.data[0].image}
-      canonicalURL={canonicalURL}
-      prev={posts.url.prev}
-      next={posts.url.next}
-    />
-
     <style lang="scss">
       .title {
         font-size: 3em;
@@ -56,19 +45,10 @@ const { posts } = Astro.props;
         text-align: center;
       }
     </style>
-  </head>
-
-  <body>
-    <Nav title={title} />
-
-    <main class="wrapper">
+<BaseLayout>
       <h2 class="title">All Posts</h2>
       <small class="count">{posts.start + 1}–{posts.end + 1} of {posts.total}</small>
       {posts.data.map((post) => <PostPreview post={post} author={authorData[post.author]} />)}
-    </main>
 
-    <footer>
-      <Pagination prevUrl={posts.url.prev} nextUrl={posts.url.next} />
-    </footer>
-  </body>
-</html>
+      <Pagination slot="footer" prevUrl={posts.url.prev} nextUrl={posts.url.next} />
+</BaseLayout>
